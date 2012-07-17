@@ -1,4 +1,4 @@
-# ring-velocity
+# ring.velocity
 
 A Clojure library designed to render velocity template for ring in clojure.
 
