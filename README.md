@@ -16,7 +16,7 @@ A Clojure library designed to render velocity template for ring in clojure.
 	 
  Use ring.velocity in your namespace:
  
-      (use '[ring.velocity :only [render]])
+      (use '[ring.velocity.core :only [render]])
 	 
  Use `render` function to render template with vars:
  
