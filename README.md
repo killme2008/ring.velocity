@@ -41,6 +41,6 @@ A Clojure library designed to render velocity template for ring in clojure.
  
 ## License
 
-Copyright © 2012 FIXME
+Copyright © 2012 dennis zhuang[killme2008@gmail.com]
 
 Distributed under the Eclipse Public License, the same as Clojure.
