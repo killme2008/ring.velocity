@@ -29,15 +29,17 @@
   (render-template [this ^String tname kvs]))
 
 (deftype ^:private VelocityRender []
-  TemplateRender
-  (render-template [this tname kvs]
-    (let [^Template template (Velocity/getTemplate tname)]
-      (if template
-        (let [^VelocityContext ctx (map->context (apply hash-map kvs))
-              ^StringWriter sw (StringWriter.)]
-          (.merge template ctx sw)
-          (.toString sw))
-        (throw (RuntimeException. (format "could not find template named `%s`" tname)))))))
+         TemplateRender
+         (render-template [this tname kvs]
+           (let [^Template template (Velocity/getTemplate tname)]
+             (if template
+               (let [^VelocityContext ctx (map->context kvs)
+                     ^StringWriter sw (StringWriter.)]
+                 (.merge template ctx sw)
+                 (.toString sw))
+               (throw (RuntimeException. (format "could not find template named `%s`" tname)))))))
+
+(def ^:private *velocity-render (VelocityRender.))
 
 (defn render
   [tname & kvs]
@@ -47,4 +49,5 @@
 
   :name and :age are the variables in template.
   "
-  (render-template (VelocityRender.) tname kvs))
+  (let [kvs (apply hash-map kvs)]
+    (render-template *velocity-render tname kvs)))
