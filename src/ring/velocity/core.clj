@@ -25,7 +25,8 @@
       (.put ctx (name k) v))
     ctx))
 
-(defprotocol TemplateRender
+(defprotocol ^{:doc "Template render protocol"}
+  TemplateRender
   (render-template [this ^String tname kvs]))
 
 (deftype ^:private VelocityRender []

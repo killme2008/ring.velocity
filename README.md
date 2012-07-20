@@ -6,7 +6,7 @@ A Clojure library designed to render velocity template for ring in clojure.
 
  Adds dependency in leiningen project.clj:
      
-      [ring.velocity "0.1.0-SNAPSHOT"]
+      [ring.velocity "0.1.0"]
 	  
  Create a directory named `templates` in your project directory to keep all velocity templates.
  
