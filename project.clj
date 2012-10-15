@@ -1,4 +1,4 @@
-(defproject ring.velocity "0.1.0"
+(defproject ring.velocity "0.1.1"
   :description "Render apache velocity template for ring in clojure."
   :url "https://github.com/killme2008/ring.velocity"
   :warn-on-reflection true
