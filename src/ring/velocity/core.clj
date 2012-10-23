@@ -3,6 +3,8 @@
            [org.apache.velocity.app Velocity]
            [java.util Properties]
            [java.io StringWriter])
+  (:use ring.middleware.content-type
+        compojure.core)
   (:use [clojure.java.io :only [resource reader]]))
 
 (def ^{:dynamic true :private true} VELOCITY-PROPS "ring-velocity.properties")
@@ -52,3 +54,15 @@
   "
   (let [kvs (apply hash-map kvs)]
     (render-template *velocity-render tname kvs)))
+
+(defn- add-wildcard
+  "Add a wildcard to the end of a route path."
+  [path]
+  (str path (if (.endsWith ^String path "/") "*" "/*")))
+
+(defn template-resources
+  "A route for serving template resources in templates directory."
+  [path & [options]]
+  (-> (GET (add-wildcard path) {{resource-path :*} :route-params}
+           (render resource-path))
+      (wrap-content-type options)))

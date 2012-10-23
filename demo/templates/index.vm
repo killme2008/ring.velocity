@@ -1,0 +1,22 @@
+
+#if($name)
+<div>Hello,$name</div>
+#end
+<br/>
+<br/>
+Enter your name to say hello: 
+<div>
+  <form action="/hello" method="post">
+	<input type="text" name="name"/>
+	<input type="submit" value="Go"/>
+  </form>
+</div>
+<br/>
+<br/>
+<div>
+  <ul>
+	<li><a href="/vm/demo1.vm">demo1 tempalte</a></li>
+	<li><a href="/vm/demo2.vm">demo2 tempalte</a></li>
+  </ul>
+</div>
+
