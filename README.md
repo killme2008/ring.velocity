@@ -1,6 +1,6 @@
 # ring.velocity
 
-A Clojure library designed to render velocity template for ring in clojure.
+A Clojure library designed to render velocity template for ring/compojure in clojure.
 
 ## Usage
 
@@ -49,7 +49,7 @@ A Clojure library designed to render velocity template for ring in clojure.
    
  Custom velocity properties,just put a file named `ring-velocity.properties` to your classpath or resource paths.The default velocity properties is in [src/default/velocity.properties](https://github.com/killme2008/ring.velocity/blob/master/src/default/velocity.properties).
  
-  A demo project with compojure is in demo folder.
+  A demo project with compojure is in [demo](https://github.com/killme2008/ring.velocity/tree/master/demo) folder.
  
 ## License
 
