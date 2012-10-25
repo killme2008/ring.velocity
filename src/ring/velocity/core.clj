@@ -7,7 +7,7 @@
         compojure.core)
   (:use [clojure.java.io :only [resource reader]]))
 
-(def ^{:dynamic true :private true} VELOCITY-PROPS "ring-velocity.properties")
+(def ^{:dynamic true :private true :constant true} velocity-props "ring-velocity.properties")
 
 (defn- ^{:tag Properties} get-default-properties []
   (let [props (Properties.)]
@@ -15,19 +15,19 @@
     props))
 
 ;;initialize velocity
-(if-let [r (resource VELOCITY-PROPS)]
+(if-let [r (resource velocity-props)]
   (let [props (Properties.)]
     (do (.load props (reader r)) (Velocity/init props)))
   (Velocity/init (get-default-properties)))
 
 (defn- ^{:tag VelocityContext} ->context [kvs]
-    "Convert a map to a velocity context instance"
-    (let [^VelocityContext ctx (VelocityContext.)]
-      (loop [[k v & r] kvs]
-        (.put ctx (name k) v)
-        (when r
-          (recur r)))
-      ctx))
+  "Convert a vector of key/value pairs to a velocity context instance"
+  (let [^VelocityContext ctx (VelocityContext.)]
+    (loop [[k v & r] kvs]
+      (.put ctx (name k) v)
+      (when r
+        (recur r)))
+    ctx))
 
 (defprotocol ^{:doc "Template render protocol"}
   TemplateRender
@@ -44,7 +44,7 @@
                  (.toString sw))
                (throw (RuntimeException. (format "could not find template named `%s`" tname)))))))
 
-(def ^:private *velocity-render (VelocityRender.))
+(def ^{:private true :dynamic true} *render (VelocityRender.))
 
 (defn render
   [tname & kvs]
@@ -54,7 +54,7 @@
 
   :name and :age are the variables in template.
   "
-  (render-template *velocity-render tname kvs))
+  (render-template *render tname kvs))
 
 (defn- add-wildcard
   "Add a wildcard to the end of a route path."
