@@ -20,12 +20,14 @@
     (do (.load props (reader r)) (Velocity/init props)))
   (Velocity/init (get-default-properties)))
 
-(defn- ^{:tag VelocityContext} map->context [kvs]
-  "Convert a map to a velocity context instance"
-  (let [^VelocityContext ctx (VelocityContext.)]
-    (doseq [[k v] kvs]
-      (.put ctx (name k) v))
-    ctx))
+(defn- ^{:tag VelocityContext} ->context [kvs]
+    "Convert a map to a velocity context instance"
+    (let [^VelocityContext ctx (VelocityContext.)]
+      (loop [[k v & r] kvs]
+        (.put ctx (name k) v)
+        (when r
+          (recur r)))
+      ctx))
 
 (defprotocol ^{:doc "Template render protocol"}
   TemplateRender
@@ -36,7 +38,7 @@
          (render-template [this tname kvs]
            (let [^Template template (Velocity/getTemplate tname)]
              (if template
-               (let [^VelocityContext ctx (map->context kvs)
+               (let [^VelocityContext ctx (->context kvs)
                      ^StringWriter sw (StringWriter.)]
                  (.merge template ctx sw)
                  (.toString sw))
@@ -52,8 +54,7 @@
 
   :name and :age are the variables in template.
   "
-  (let [kvs (apply hash-map kvs)]
-    (render-template *velocity-render tname kvs)))
+  (render-template *velocity-render tname kvs))
 
 (defn- add-wildcard
   "Add a wildcard to the end of a route path."
